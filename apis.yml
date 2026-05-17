@@ -88,7 +88,7 @@ common:
     url: https://www.udemy.com/developers/
   - type: Pricing
     url: https://business.udemy.com/request-demo/
-  - type: Sign Up
+  - type: SignUp
     url: https://www.udemy.com/join/signup-popup/
   - type: Affiliate Program
     url: https://www.udemy.com/affiliate/
