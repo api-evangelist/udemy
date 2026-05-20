@@ -82,6 +82,8 @@ apis:
         url: https://s3.amazonaws.com/udemy-images/support/Udemy_for_Business_API_Reference_v2.0.pdf
 
 common:
+  - type: GitHubOrganization
+    url: https://github.com/udemy
   - type: Website
     url: https://www.udemy.com
   - type: Documentation
