@@ -1,105 +1,97 @@
 aid: udemy
 name: Udemy
-description: >-
-  Udemy is a global online learning marketplace offering tens of thousands of
-  on-demand video courses across business, technology, design, and personal
-  development, alongside Udemy Business, an enterprise learning subscription
-  for workforce skills development. Udemy exposes REST APIs including the
-  Affiliate API for course discovery and the Instructor API for instructor
-  resources, both using bearer token authentication over HTTPS with
-  JSON-formatted responses.
+description: Udemy is a global online learning marketplace offering tens of thousands
+  of on-demand video courses across business, technology, design, and personal development,
+  alongside Udemy Business, an enterprise learning subscription for workforce skills
+  development. Udemy exposes REST APIs including the Affiliate API for course discovery
+  and the Instructor API for instructor resources, both using bearer token authentication
+  over HTTPS with JSON-formatted responses.
 type: Index
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 tags:
-  - Online Learning
-  - E-Learning
-  - Education
-  - Courses
-  - Corporate Training
-  - Workforce Development
-url: >-
-  https://raw.githubusercontent.com/api-evangelist/udemy/refs/heads/main/apis.yml
+- Online Learning
+- E-Learning
+- Education
+- Courses
+- Corporate Training
+- Workforce Development
+url: https://raw.githubusercontent.com/api-evangelist/udemy/refs/heads/main/apis.yml
 created: '2026-05-11'
 modified: '2026-05-11'
 specificationVersion: '0.19'
 apis:
-  - aid: udemy:affiliate-api
-    name: Udemy Affiliate API
-    description: >-
-      REST Affiliate API exposing the Udemy course catalog for course
-      discovery and search by category, subcategory, price, language, and
-      keyword. Authentication uses a base64-encoded HTTP Basic header derived
-      from a client ID and client secret. Note Udemy discontinued new
-      Affiliate API access on 2025-01-01; existing approved clients retain
-      access.
-    humanURL: https://www.udemy.com/developers/affiliate/
-    baseURL: https://www.udemy.com/api-2.0
-    tags:
-      - Courses
-      - Course Catalog
-      - Search
-      - Affiliate
-    properties:
-      - type: Documentation
-        url: https://www.udemy.com/developers/affiliate/
-      - type: Course Model
-        url: https://www.udemy.com/developers/affiliate/models/course/
-  - aid: udemy:instructor-api
-    name: Udemy Instructor API
-    description: >-
-      REST Instructor API providing programmatic access to instructor-owned
-      courses, students, revenue reports, and course resources. Authentication
-      uses bearer tokens scoped to instructor accounts.
-    humanURL: https://www.udemy.com/developers/instructor/
-    baseURL: https://www.udemy.com/instructor-api/v1
-    tags:
-      - Instructor
-      - Courses
-      - Revenue Reports
-      - Students
-    properties:
-      - type: Documentation
-        url: https://www.udemy.com/developers/instructor/
-  - aid: udemy:business-api
-    name: Udemy Business API
-    description: >-
-      REST API for Udemy Business customers to programmatically manage users,
-      groups, course assignments, learning activity, and reporting for their
-      enterprise learning environment.
-    humanURL: >-
-      https://www.postman.com/udemy-inc-429715/udemy-business-web-apis/documentation/loj22uj/udemy-business-apis
-    baseURL: https://{subdomain}.udemy.com/api-2.0
-    tags:
-      - Corporate Training
-      - Learning Management
-      - User Management
-      - Reporting
-    properties:
-      - type: Documentation
-        url: >-
-          https://www.postman.com/udemy-inc-429715/udemy-business-web-apis/documentation/loj22uj/udemy-business-apis
-      - type: PDF Reference
-        url: https://s3.amazonaws.com/udemy-images/support/Udemy_for_Business_API_Reference_v2.0.pdf
-
-common:
-  - type: GitHubOrganization
-    url: https://github.com/udemy
-  - type: Website
-    url: https://www.udemy.com
+- aid: udemy:affiliate-api
+  name: Udemy Affiliate API
+  description: REST Affiliate API exposing the Udemy course catalog for course discovery
+    and search by category, subcategory, price, language, and keyword. Authentication
+    uses a base64-encoded HTTP Basic header derived from a client ID and client secret.
+    Note Udemy discontinued new Affiliate API access on 2025-01-01; existing approved
+    clients retain access.
+  humanURL: https://www.udemy.com/developers/affiliate/
+  baseURL: https://www.udemy.com/api-2.0
+  tags:
+  - Courses
+  - Course Catalog
+  - Search
+  - Affiliate
+  properties:
   - type: Documentation
-    url: https://www.udemy.com/developers/
-  - type: Pricing
-    url: https://business.udemy.com/request-demo/
-  - type: SignUp
-    url: https://www.udemy.com/join/signup-popup/
-  - type: Affiliate Program
-    url: https://www.udemy.com/affiliate/
-  - type: Terms of Use
-    url: https://www.udemy.com/terms/api/
-  - type: Support
-    url: https://support.udemy.com
-  - type: LinkedIn
-    url: https://www.linkedin.com/company/udemy
+    url: https://www.udemy.com/developers/affiliate/
+  - type: Course Model
+    url: https://www.udemy.com/developers/affiliate/models/course/
+  - url: graphql/udemy-graphql.md
+    type: GraphQL
+- aid: udemy:instructor-api
+  name: Udemy Instructor API
+  description: REST Instructor API providing programmatic access to instructor-owned
+    courses, students, revenue reports, and course resources. Authentication uses
+    bearer tokens scoped to instructor accounts.
+  humanURL: https://www.udemy.com/developers/instructor/
+  baseURL: https://www.udemy.com/instructor-api/v1
+  tags:
+  - Instructor
+  - Courses
+  - Revenue Reports
+  - Students
+  properties:
+  - type: Documentation
+    url: https://www.udemy.com/developers/instructor/
+- aid: udemy:business-api
+  name: Udemy Business API
+  description: REST API for Udemy Business customers to programmatically manage users,
+    groups, course assignments, learning activity, and reporting for their enterprise
+    learning environment.
+  humanURL: https://www.postman.com/udemy-inc-429715/udemy-business-web-apis/documentation/loj22uj/udemy-business-apis
+  baseURL: https://{subdomain}.udemy.com/api-2.0
+  tags:
+  - Corporate Training
+  - Learning Management
+  - User Management
+  - Reporting
+  properties:
+  - type: Documentation
+    url: https://www.postman.com/udemy-inc-429715/udemy-business-web-apis/documentation/loj22uj/udemy-business-apis
+  - type: PDF Reference
+    url: https://s3.amazonaws.com/udemy-images/support/Udemy_for_Business_API_Reference_v2.0.pdf
+common:
+- type: GitHubOrganization
+  url: https://github.com/udemy
+- type: Website
+  url: https://www.udemy.com
+- type: Documentation
+  url: https://www.udemy.com/developers/
+- type: Pricing
+  url: https://business.udemy.com/request-demo/
+- type: SignUp
+  url: https://www.udemy.com/join/signup-popup/
+- type: Affiliate Program
+  url: https://www.udemy.com/affiliate/
+- type: Terms of Use
+  url: https://www.udemy.com/terms/api/
+- type: Support
+  url: https://support.udemy.com
+- type: LinkedIn
+  url: https://www.linkedin.com/company/udemy
 maintainers:
-  - FN: Kin Lane
-    email: kin@apievangelist.com
+- FN: Kin Lane
+  email: kin@apievangelist.com

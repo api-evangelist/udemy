@@ -1,0 +1,782 @@
+"""
+Udemy GraphQL Schema
+Conceptual schema derived from the Udemy Affiliate API, Instructor API, and Udemy Business API.
+REST API docs: https://www.udemy.com/developers/
+"""
+
+# ─── Scalars ────────────────────────────────────────────────────────────────
+
+scalar DateTime
+scalar URL
+scalar JSON
+
+# ─── Enums ──────────────────────────────────────────────────────────────────
+
+enum LectureType {
+  VIDEO
+  ARTICLE
+  PRACTICE_TEST
+  ASSIGNMENT
+  SUPPLEMENTARY
+}
+
+enum CourseBadgeType {
+  BESTSELLER
+  HOT_AND_NEW
+  HIGHEST_RATED
+  NEW
+}
+
+enum PricingPlanType {
+  FREE
+  PAID
+  SUBSCRIPTION
+}
+
+enum RefundStatus {
+  PENDING
+  APPROVED
+  DENIED
+  COMPLETED
+}
+
+enum EnrollmentSource {
+  PURCHASE
+  FREE_ENROLL
+  COUPON
+  BUSINESS_ASSIGNMENT
+  INSTRUCTOR
+}
+
+enum BusinessUserRole {
+  LEARNER
+  GROUP_ADMIN
+  ACCOUNT_ADMIN
+}
+
+# ─── Course Domain ───────────────────────────────────────────────────────────
+
+"""Top-level course entity in the Udemy catalog."""
+type Course {
+  id: ID!
+  title: String!
+  url: URL!
+  isPaid: Boolean!
+  price: CoursePrice
+  visibleInstructor: Instructor
+  image75x75: URL
+  image240x135: URL
+  image480x270: URL
+  created: DateTime!
+  published: Boolean!
+  isClosed: Boolean!
+  isPracticeTestCourse: Boolean!
+  headline: String
+  numSubscribers: Int
+  avgRating: Float
+  numReviews: Int
+  numPublishedLectures: Int
+  numPublishedPracticeTests: Int
+  estimatedContentLengthVideo: Float
+  lastUpdateDate: DateTime
+  badges: [CourseBadge!]
+  labels: [CourseLabel!]
+  category: CourseCategory
+  subcategory: CourseSubcategory
+  primaryCategory: CourseCategory
+  primarySubcategory: CourseSubcategory
+  details: CourseDetails
+  rating: CourseRating
+  curriculum: Curriculum
+  instructors: [Instructor!]
+  reviews: [CourseReview!]
+  locale: String
+}
+
+"""Extended metadata for a Udemy course."""
+type CourseDetails {
+  courseId: ID!
+  objectives: [CourseObjective!]
+  requirements: [CourseRequirement!]
+  targetAudiences: [CourseTarget!]
+  description: String
+  whatYouWillLearn: String
+  prerequisites: String
+  whoShouldAttend: String
+}
+
+"""Image asset for a course in a specific dimension."""
+type CourseImage {
+  courseId: ID!
+  dimension: String!
+  url: URL!
+}
+
+"""Aggregate rating data for a course."""
+type CourseRating {
+  courseId: ID!
+  average: Float!
+  count: Int!
+  distribution: JSON
+}
+
+"""A single learning objective for a course."""
+type CourseObjective {
+  id: ID!
+  courseId: ID!
+  description: String!
+  sortOrder: Int
+}
+
+"""A prerequisite requirement listed on a course."""
+type CourseRequirement {
+  id: ID!
+  courseId: ID!
+  description: String!
+  sortOrder: Int
+}
+
+"""A target audience description for a course."""
+type CourseTarget {
+  id: ID!
+  courseId: ID!
+  description: String!
+  sortOrder: Int
+}
+
+"""A badge applied to a course."""
+type CourseBadge {
+  id: ID!
+  courseId: ID!
+  badgeType: CourseBadgeType!
+  title: String!
+}
+
+"""An editorial label associated with a course."""
+type CourseLabel {
+  id: ID!
+  courseId: ID!
+  title: String!
+  url: URL
+}
+
+"""Top-level category grouping courses."""
+type CourseCategory {
+  id: ID!
+  title: String!
+  url: URL!
+  icon: URL
+  subcategories: [CourseSubcategory!]
+}
+
+"""Subcategory nested within a category."""
+type CourseSubcategory {
+  id: ID!
+  title: String!
+  url: URL!
+  category: CourseCategory!
+}
+
+# ─── Instructor Domain ────────────────────────────────────────────────────────
+
+"""An instructor on the Udemy platform."""
+type Instructor {
+  id: ID!
+  title: String!
+  name: String!
+  displayName: String!
+  url: URL!
+  image50x50: URL
+  image100x100: URL
+  initials: String
+  bio: InstructorBio
+  rating: InstructorRating
+  courses: [Course!]
+}
+
+"""Extended biography for an instructor."""
+type InstructorBio {
+  instructorId: ID!
+  headline: String
+  description: String
+  websiteUrl: URL
+  twitterUrl: URL
+  linkedinUrl: URL
+  youtubeUrl: URL
+  facebookUrl: URL
+}
+
+"""Aggregate rating information for an instructor."""
+type InstructorRating {
+  instructorId: ID!
+  averageRating: Float!
+  numRatings: Int!
+  numStudents: Int!
+  numCourses: Int!
+  numReviews: Int!
+}
+
+# ─── Curriculum Domain ────────────────────────────────────────────────────────
+
+"""Full curriculum for a course."""
+type Curriculum {
+  courseId: ID!
+  estimatedContentLengthVideo: Float
+  numSections: Int!
+  numLectures: Int!
+  numPracticeTests: Int!
+  sections: [CurriculumSection!]!
+}
+
+"""A titled section within a course curriculum."""
+type CurriculumSection {
+  id: ID!
+  courseId: ID!
+  title: String!
+  description: String
+  sortOrder: Int!
+  isPublished: Boolean!
+  lectures: [CurriculumLecture!]!
+}
+
+"""A lecture item within a curriculum section."""
+type CurriculumLecture {
+  id: ID!
+  sectionId: ID!
+  courseId: ID!
+  title: String!
+  lectureType: LectureType!
+  sortOrder: Int!
+  isPublished: Boolean!
+  isFree: Boolean!
+  durationSeconds: Int
+  lecture: Lecture
+}
+
+"""A single lecture with content metadata."""
+type Lecture {
+  id: ID!
+  title: String!
+  lectureType: LectureType!
+  durationSeconds: Int
+  isPublished: Boolean!
+  isFree: Boolean!
+  asVideo: VideoLecture
+  asArticle: ArticleLecture
+  asPracticeTest: PracticeTest
+  asAssignment: AssignmentLecture
+  supplementaryMaterials: [SupplementaryMaterial!]
+}
+
+"""A video lecture with asset references and captions."""
+type VideoLecture {
+  lectureId: ID!
+  videoUrl: URL
+  thumbnailUrl: URL
+  durationSeconds: Int!
+  hasCaptions: Boolean!
+  captionLocales: [String!]
+  isHlsVideo: Boolean!
+}
+
+"""An article-type lecture with rich text content."""
+type ArticleLecture {
+  lectureId: ID!
+  body: String!
+  estimatedReadTimeMinutes: Int
+}
+
+"""A practice test or quiz attached to a curriculum section."""
+type PracticeTest {
+  id: ID!
+  courseId: ID!
+  sectionId: ID!
+  title: String!
+  description: String
+  numQuestions: Int!
+  durationSeconds: Int
+  passingScore: Float
+}
+
+"""A graded assignment lecture."""
+type AssignmentLecture {
+  lectureId: ID!
+  title: String!
+  instructions: String!
+  durationSeconds: Int
+  gradingNotes: String
+}
+
+"""A downloadable or external supplementary material for a lecture."""
+type SupplementaryMaterial {
+  id: ID!
+  lectureId: ID!
+  title: String!
+  fileSize: Int
+  externalUrl: URL
+  assetType: String!
+}
+
+# ─── Student Engagement Domain ────────────────────────────────────────────────
+
+"""A question posted by a student in a course discussion."""
+type StudentQuestion {
+  id: ID!
+  courseId: ID!
+  lectureId: ID
+  sectionId: ID
+  student: Student!
+  title: String!
+  body: String!
+  numAnswers: Int!
+  isAnswered: Boolean!
+  created: DateTime!
+  modified: DateTime!
+  answers: [StudentAnswer!]
+}
+
+"""An answer to a student question."""
+type StudentAnswer {
+  id: ID!
+  questionId: ID!
+  author: Student!
+  body: String!
+  isInstructorAnswer: Boolean!
+  numUpvotes: Int!
+  created: DateTime!
+  modified: DateTime!
+}
+
+"""Written feedback from a student on a course section or lecture."""
+type StudentFeedback {
+  id: ID!
+  courseId: ID!
+  lectureId: ID
+  student: Student!
+  body: String!
+  created: DateTime!
+}
+
+"""A student's numeric rating and written review of a course."""
+type CourseReview {
+  id: ID!
+  courseId: ID!
+  student: Student!
+  rating: Float!
+  content: String
+  created: DateTime!
+  modified: DateTime!
+  response: String
+  responseDate: DateTime
+}
+
+# ─── Enrollment and Progress Domain ──────────────────────────────────────────
+
+"""A course a student is currently enrolled in."""
+type EnrolledCourse {
+  id: ID!
+  student: Student!
+  course: Course!
+  enrollmentRecord: EnrollmentRecord!
+  progress: LearningProgress!
+  certificate: CertificateRecord
+}
+
+"""Record of when and how a student enrolled in a course."""
+type EnrollmentRecord {
+  id: ID!
+  studentId: ID!
+  courseId: ID!
+  enrolledAt: DateTime!
+  source: EnrollmentSource!
+  couponCode: String
+}
+
+"""Aggregate learning progress for a student in a course."""
+type LearningProgress {
+  enrollmentId: ID!
+  courseId: ID!
+  studentId: ID!
+  completionPercentage: Float!
+  numLecturesCompleted: Int!
+  numLecturesTotal: Int!
+  lastAccessedAt: DateTime
+  completedAt: DateTime
+  lectureProgresses: [LectureProgress!]
+  quizProgresses: [QuizProgress!]
+}
+
+"""Progress record for a single lecture."""
+type LectureProgress {
+  id: ID!
+  enrollmentId: ID!
+  lectureId: ID!
+  isCompleted: Boolean!
+  lastPositionSeconds: Int
+  lastAccessedAt: DateTime
+  completedAt: DateTime
+}
+
+"""Progress and score record for a practice test."""
+type QuizProgress {
+  id: ID!
+  enrollmentId: ID!
+  practiceTestId: ID!
+  highestScore: Float
+  numAttempts: Int!
+  isPassed: Boolean!
+  lastAttemptAt: DateTime
+}
+
+# ─── Certification Domain ─────────────────────────────────────────────────────
+
+"""A course completion certificate definition."""
+type Certificate {
+  id: ID!
+  courseId: ID!
+  title: String!
+  description: String
+  issuerName: String!
+}
+
+"""A student's earned certificate for a completed course."""
+type CertificateRecord {
+  id: ID!
+  certificateId: ID!
+  studentId: ID!
+  courseId: ID!
+  issuedAt: DateTime!
+  certificateUrl: URL!
+  verificationUrl: URL
+}
+
+# ─── Pricing and Commerce Domain ─────────────────────────────────────────────
+
+"""A discount coupon applicable to course purchases."""
+type Coupon {
+  id: ID!
+  code: String!
+  discountPercentage: Float!
+  courseId: ID!
+  isActive: Boolean!
+  expiresAt: DateTime
+  maxUses: Int
+  usesCount: Int!
+}
+
+"""A pricing plan type available for a course."""
+type PricingPlan {
+  id: ID!
+  planType: PricingPlanType!
+  title: String!
+  description: String
+}
+
+"""Current retail and sale price for a course in a given currency."""
+type CoursePrice {
+  courseId: ID!
+  currency: String!
+  amount: Float!
+  listAmount: Float
+  isFree: Boolean!
+  discountPercentage: Float
+  pricingPlan: PricingPlan
+  activeCoupon: Coupon
+  activeDiscount: Discount
+}
+
+"""A promotional discount applied to a course or order."""
+type Discount {
+  id: ID!
+  title: String!
+  discountPercentage: Float!
+  startDate: DateTime!
+  endDate: DateTime!
+  isActive: Boolean!
+  appliesTo: [ID!]
+}
+
+"""A time-bounded sale event across multiple courses."""
+type Sale {
+  id: ID!
+  title: String!
+  discountPercentage: Float!
+  startDate: DateTime!
+  endDate: DateTime!
+  isActive: Boolean!
+  courses: [Course!]
+}
+
+"""A student's saved course wishlist."""
+type Wishlist {
+  id: ID!
+  studentId: ID!
+  items: [WishlistItem!]!
+  itemCount: Int!
+  created: DateTime!
+  modified: DateTime!
+}
+
+"""A single course entry in a student's wishlist."""
+type WishlistItem {
+  id: ID!
+  wishlistId: ID!
+  course: Course!
+  addedAt: DateTime!
+}
+
+"""A student's active shopping cart."""
+type ShoppingCart {
+  id: ID!
+  studentId: ID!
+  items: [Course!]!
+  totalPrice: Float!
+  currency: String!
+  appliedCoupons: [Coupon!]
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+"""A completed purchase transaction for one course."""
+type Purchase {
+  id: ID!
+  orderId: ID!
+  course: Course!
+  amountPaid: Float!
+  currency: String!
+  purchasedAt: DateTime!
+  couponApplied: Coupon
+  refund: Refund
+}
+
+"""An order record grouping one or more purchased courses."""
+type Order {
+  id: ID!
+  student: Student!
+  purchases: [Purchase!]!
+  totalAmount: Float!
+  currency: String!
+  createdAt: DateTime!
+  status: String!
+  paymentMethod: String
+}
+
+"""A refund request or completed refund for a purchase."""
+type Refund {
+  id: ID!
+  purchaseId: ID!
+  studentId: ID!
+  reason: String!
+  status: RefundStatus!
+  requestedAt: DateTime!
+  processedAt: DateTime
+  amountRefunded: Float
+}
+
+# ─── Student and Account Domain ───────────────────────────────────────────────
+
+"""A student account on the Udemy platform."""
+type Student {
+  id: ID!
+  name: String!
+  displayName: String!
+  email: String!
+  image50x50: URL
+  image100x100: URL
+  initials: String
+  url: URL
+  profile: StudentProfile
+  enrolledCourses: [EnrolledCourse!]
+  wishlist: Wishlist
+  orders: [Order!]
+}
+
+"""Detailed profile information for a student."""
+type StudentProfile {
+  studentId: ID!
+  headline: String
+  bio: String
+  websiteUrl: URL
+  twitterUrl: URL
+  linkedinUrl: URL
+  learningGoals: [String!]
+  locale: String
+}
+
+# ─── API and Platform Domain ──────────────────────────────────────────────────
+
+"""An API client credential for REST API access."""
+type APIKey {
+  id: ID!
+  clientId: String!
+  createdAt: DateTime!
+  expiresAt: DateTime
+  scopes: [String!]!
+  isActive: Boolean!
+}
+
+"""A bearer token issued for an authenticated API session."""
+type Token {
+  accessToken: String!
+  tokenType: String!
+  expiresIn: Int!
+  scope: String
+  issuedAt: DateTime!
+}
+
+"""A registered webhook endpoint for Udemy event notifications."""
+type Webhook {
+  id: ID!
+  url: URL!
+  events: [String!]!
+  isActive: Boolean!
+  secret: String
+  createdAt: DateTime!
+  lastDeliveredAt: DateTime
+  failureCount: Int!
+}
+
+# ─── Business / Enterprise Domain ────────────────────────────────────────────
+
+"""An enterprise Udemy Business account."""
+type BusinessAccount {
+  id: ID!
+  name: String!
+  subdomain: String!
+  seatCount: Int!
+  usedSeatCount: Int!
+  createdAt: DateTime!
+  users: [BusinessUser!]
+  groups: [BusinessGroup!]
+}
+
+"""A user within a Udemy Business account."""
+type BusinessUser {
+  id: ID!
+  accountId: ID!
+  email: String!
+  name: String!
+  role: BusinessUserRole!
+  isActive: Boolean!
+  addedAt: DateTime!
+  groups: [BusinessGroup!]
+  assignments: [CourseAssignment!]
+  learningActivity: [LearningActivity!]
+}
+
+"""A named group of users within a Udemy Business account."""
+type BusinessGroup {
+  id: ID!
+  accountId: ID!
+  name: String!
+  description: String
+  memberCount: Int!
+  createdAt: DateTime!
+  members: [BusinessUser!]
+  assignments: [CourseAssignment!]
+}
+
+"""An assignment of a course to a user or group in Udemy Business."""
+type CourseAssignment {
+  id: ID!
+  accountId: ID!
+  course: Course!
+  assignedTo: String!
+  assignedToId: ID!
+  assignedAt: DateTime!
+  dueDate: DateTime
+  isCompleted: Boolean!
+}
+
+"""A log entry of learning activity for a Udemy Business user."""
+type LearningActivity {
+  id: ID!
+  userId: ID!
+  accountId: ID!
+  course: Course!
+  lectureId: ID
+  activityDate: DateTime!
+  durationSeconds: Int!
+  isCompletion: Boolean!
+}
+
+"""Aggregate completion report for a Udemy Business account."""
+type CompletionReport {
+  id: ID!
+  accountId: ID!
+  generatedAt: DateTime!
+  reportPeriodStart: DateTime!
+  reportPeriodEnd: DateTime!
+  totalEnrollments: Int!
+  totalCompletions: Int!
+  totalHoursLearned: Float!
+  completionRate: Float!
+  topCourses: [Course!]
+}
+
+# ─── Query Root ───────────────────────────────────────────────────────────────
+
+type Query {
+  course(id: ID!): Course
+  courses(
+    category: String
+    subcategory: String
+    language: String
+    price: String
+    search: String
+    ordering: String
+    page: Int
+    pageSize: Int
+  ): [Course!]!
+  courseDetails(courseId: ID!): CourseDetails
+  curriculum(courseId: ID!): Curriculum
+  instructor(id: ID!): Instructor
+  instructors(courseId: ID!): [Instructor!]!
+  categories: [CourseCategory!]!
+  category(id: ID!): CourseCategory
+  student(id: ID!): Student
+  enrolledCourses(studentId: ID!): [EnrolledCourse!]!
+  learningProgress(enrollmentId: ID!): LearningProgress
+  order(id: ID!): Order
+  orders(studentId: ID!): [Order!]!
+  coupon(code: String!): Coupon
+  wishlist(studentId: ID!): Wishlist
+  shoppingCart(studentId: ID!): ShoppingCart
+  businessAccount(id: ID!): BusinessAccount
+  businessUser(id: ID!): BusinessUser
+  businessGroup(id: ID!): BusinessGroup
+  completionReport(accountId: ID!, start: DateTime!, end: DateTime!): CompletionReport
+  webhooks: [Webhook!]!
+  courseReviews(courseId: ID!, page: Int, pageSize: Int): [CourseReview!]!
+  studentQuestions(courseId: ID!, lectureId: ID, page: Int, pageSize: Int): [StudentQuestion!]!
+  sale(id: ID!): Sale
+  activeSales: [Sale!]!
+}
+
+# ─── Mutation Root ────────────────────────────────────────────────────────────
+
+type Mutation {
+  enrollInCourse(courseId: ID!, couponCode: String): EnrolledCourse
+  unenrollFromCourse(courseId: ID!): Boolean
+  updateLectureProgress(lectureId: ID!, positionSeconds: Int, isCompleted: Boolean): LectureProgress
+  addToWishlist(courseId: ID!): WishlistItem
+  removeFromWishlist(courseId: ID!): Boolean
+  addToCart(courseId: ID!): ShoppingCart
+  removeFromCart(courseId: ID!): ShoppingCart
+  applyCoupon(code: String!): ShoppingCart
+  checkout(paymentMethod: String!): Order
+  requestRefund(purchaseId: ID!, reason: String!): Refund
+  postQuestion(courseId: ID!, lectureId: ID, title: String!, body: String!): StudentQuestion
+  postAnswer(questionId: ID!, body: String!): StudentAnswer
+  postReview(courseId: ID!, rating: Float!, content: String): CourseReview
+  createWebhook(url: URL!, events: [String!]!, secret: String): Webhook
+  deleteWebhook(id: ID!): Boolean
+  createCoupon(courseId: ID!, discountPercentage: Float!, expiresAt: DateTime, maxUses: Int): Coupon
+  deactivateCoupon(id: ID!): Coupon
+  addBusinessUser(accountId: ID!, email: String!, role: BusinessUserRole!): BusinessUser
+  removeBusinessUser(userId: ID!): Boolean
+  createBusinessGroup(accountId: ID!, name: String!, description: String): BusinessGroup
+  addUserToGroup(groupId: ID!, userId: ID!): BusinessGroup
+  assignCourseToGroup(groupId: ID!, courseId: ID!, dueDate: DateTime): CourseAssignment
+  assignCourseToUser(userId: ID!, courseId: ID!, dueDate: DateTime): CourseAssignment
+}
