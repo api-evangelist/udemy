@@ -82,11 +82,11 @@ common:
   url: https://www.udemy.com/developers/
 - type: Pricing
   url: https://business.udemy.com/request-demo/
-- type: SignUp
+- type: Signup
   url: https://www.udemy.com/join/signup-popup/
 - type: Affiliate Program
   url: https://www.udemy.com/affiliate/
-- type: Terms of Use
+- type: TermsOfService
   url: https://www.udemy.com/terms/api/
 - type: Support
   url: https://support.udemy.com
