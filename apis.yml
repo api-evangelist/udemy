@@ -74,6 +74,10 @@ apis:
   - type: PDF Reference
     url: https://s3.amazonaws.com/udemy-images/support/Udemy_for_Business_API_Reference_v2.0.pdf
 common:
+- type: TrustCenter
+  url: security/udemy-trust-center.yml
+- type: DomainSecurity
+  url: security/udemy-domain-security.yml
 - type: GitHubOrganization
   url: https://github.com/udemy
 - type: Website
@@ -92,6 +96,8 @@ common:
   url: https://support.udemy.com
 - type: LinkedIn
   url: https://www.linkedin.com/company/udemy
+- url: https://medium.com/feed/udemy-engineering
+  type: Blog
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
