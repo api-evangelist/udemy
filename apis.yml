@@ -44,6 +44,11 @@ apis:
   - Courses
   - Course Catalog
   - Search
+  - Affiliates
+  tags_raw:
+  - Courses
+  - Course Catalog
+  - Search
   - Affiliate
   properties:
   - type: Documentation
@@ -60,6 +65,11 @@ apis:
   humanURL: https://www.udemy.com/developers/instructor/
   baseURL: https://www.udemy.com/instructor-api/v1
   tags:
+  - instructor
+  - Courses
+  - Revenue Reports
+  - Students
+  tags_raw:
   - Instructor
   - Courses
   - Revenue Reports
