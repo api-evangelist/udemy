@@ -76,7 +76,7 @@ apis:
   humanURL: https://www.udemy.com/developers/instructor/
   baseURL: https://www.udemy.com/instructor-api/v1
   tags:
-  - instructor
+  - Instructor
   - Courses
   - Revenue Reports
   - Students
