@@ -66,8 +66,6 @@ apis:
     url: https://www.udemy.com/developers/affiliate/
   - type: Course Model
     url: https://www.udemy.com/developers/affiliate/models/course/
-  - url: graphql/udemy-graphql.md
-    type: GraphQL
 - aid: udemy:instructor-api
   name: Udemy Instructor API
   description: REST Instructor API providing programmatic access to instructor-owned
