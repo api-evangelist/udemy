@@ -54,7 +54,7 @@
     - connectors/applications/udemy-business
     vendor_link: https://www.udemy.com/
     builder: Fivetran
-  status: pending-partner-spec
+  status: not-a-workflow
   arazzo: null
 - slug: udemy-meltano
   label: Meltano
@@ -83,5 +83,5 @@
     quality:
     - silver
     builder: 'community (Meltano Hub variant maintainers: immuta)'
-  status: pending-partner-spec
+  status: not-a-workflow
   arazzo: null
