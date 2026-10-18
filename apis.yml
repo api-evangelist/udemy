@@ -31,6 +31,12 @@ accessModel:
   method: derived
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/udemy.png
 tags:
+- E-Learning
+- Education
+- Courses
+- Corporate Training
+- Workforce Development
+tags_raw:
 - Online Learning
 - E-Learning
 - Education
@@ -94,6 +100,11 @@ apis:
   humanURL: https://www.postman.com/udemy-inc-429715/udemy-business-web-apis/documentation/loj22uj/udemy-business-apis
   baseURL: https://{subdomain}.udemy.com/api-2.0
   tags:
+  - Corporate Training
+  - LMS
+  - User Management
+  - Reporting
+  tags_raw:
   - Corporate Training
   - Learning Management
   - User Management
